@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DecentralVote - Blockchain Voting System</title>
+    <link rel="stylesheet" href="voting.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>DecentralVote</h1>
+                </div>
+                <div class="wallet-info">
+                    <button id="connectWallet" class="btn btn-primary">Connect Wallet</button>
+                    <div id="accountInfo" class="hidden">
+                        <span id="accountAddress"></span>
+                        <div class="account-balance">
+                            <span id="accountBalance"></span> ETH
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="container">
+            <div class="dashboard">
+                <div class="network-status">
+                    <div id="networkIndicator" class="indicator"></div>
+                    <span id="networkName">Not Connected</span>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="elections">Elections</button>
+                    <button class="tab-btn" data-tab="create">Create Election</button>
+                    <button class="tab-btn" data-tab="my-votes">My Votes</button>
+                </div>
+
+                <div id="notifications" class="notifications"></div>
+
+                <!-- Elections Tab -->
+                <div id="elections" class="tab-content active">
+                    <h2>Active Elections</h2>
+                    <div class="election-list" id="activeElections">
+                        <div class="loader">Loading elections...</div>
+                    </div>
+                    
+                    <h2>Past Elections</h2>
+                    <div class="election-list" id="pastElections">
+                        <div class="loader">Loading past elections...</div>
+                    </div>
+                </div>
+
+                <!-- Create Election Tab -->
+                <div id="create" class="tab-content">
+                    <h2>Create New Election</h2>
+                    <form id="createElectionForm">
+                        <div class="form-group">
+                            <label for="electionTitle">Election Title</label>
+                            <input type="text" id="electionTitle" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="electionDescription">Description</label>
+                            <textarea id="electionDescription" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-group date-inputs">
+                            <div>
+                                <label for="startDate">Start Date</label>
+                                <input type="datetime-local" id="startDate" required>
+                            </div>
+                            <div>
+                                <label for="endDate">End Date</label>
+                                <input type="datetime-local" id="endDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Candidates/Options</label>
+                            <div id="candidateInputs">
+                                <div class="candidate-input">
+                                    <input type="text" name="candidate" placeholder="Candidate name" required>
+                                    <input type="text" name="candidateDesc" placeholder="Brief description" required>
+                                </div>
+                                <div class="candidate-input">
+                                    <input type="text" name="candidate" placeholder="Candidate name" required>
+                                    <input type="text" name="candidateDesc" placeholder="Brief description" required>
+                                </div>
+                            </div>
+                            <button type="button" id="addCandidateBtn" class="btn btn-secondary">Add Candidate</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="voterRestriction">Voter Restriction</label>
+                            <select id="voterRestriction">
+                                <option value="public">Public (Anyone can vote)</option>
+                                <option value="whitelist">Whitelisted Addresses Only</option>
+                            </select>
+                        </div>
+                        
+                        <div id="whitelistSection" class="form-group hidden">
+                            <label for="whitelistAddresses">Whitelist Addresses (One per line)</label>
+                            <textarea id="whitelistAddresses" rows="3" placeholder="0x..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Create Election</button>
+                    </form>
+                </div>
+
+                <!-- My Votes Tab -->
+                <div id="my-votes" class="tab-content">
+                    <h2>My Voting History</h2>
+                    <div id="votingHistory">
+                        <div class="loader">Loading your voting history...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Election Details Modal -->
+        <div id="electionModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 id="modalElectionTitle">Election Title</h2>
+                <div id="modalElectionDetails">
+                    <p id="modalElectionDescription"></p>
+                    <div class="election-meta">
+                        <div><strong>Start:</strong> <span id="modalStartDate"></span></div>
+                        <div><strong>End:</strong> <span id="modalEndDate"></span></div>
+                        <div><strong>Status:</strong> <span id="modalStatus"></span></div>
+                    </div>
+                    
+                    <h3>Candidates</h3>
+                    <div id="candidatesList" class="candidates-list"></div>
+                    
+                    <div id="votingSection" class="voting-section">
+                        <h3>Cast Your Vote</h3>
+                        <div id="votingOptions" class="voting-options"></div>
+                        <button id="castVoteBtn" class="btn btn-primary">Submit Vote</button>
+                    </div>
+                    
+                    <div id="resultsSection" class="results-section hidden">
+                        <h3>Election Results</h3>
+                        <div id="electionResults" class="election-results"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DecentralVote - Secured by Blockchain</p>
+        </div>
+    </footer>
+
+    <!-- Smart Contract ABI -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.1/web3.min.js"></script>
+    <script src="voting.js"></script>
+</body>
+</html>
